@@ -15,7 +15,7 @@ public:
 	ABuilderGameMode();
 private:
 	//The Builder Actor
-	//class AConstructorMapaUno* Builder;
+	class AConstructorMapaNivelUno* Constructor;
 	//The Engineer Actor
 	class AIngenieroDeMapas* Director;
 
@@ -27,5 +27,5 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	AConstructorMapaNivelUno* Builder;
+	//AConstructorMapaNivelUno* Builder;
 };

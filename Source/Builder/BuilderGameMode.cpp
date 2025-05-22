@@ -18,22 +18,18 @@ void ABuilderGameMode::BeginPlay()
 	Super::BeginPlay();
 	// Create the Builder and Director
 	// Crear el constructor del laberinto
-	Builder = GetWorld()->SpawnActor<AConstructorMapaNivelUno>(AConstructorMapaNivelUno::StaticClass());
+	Constructor = GetWorld()->SpawnActor<AConstructorMapaNivelUno>(AConstructorMapaNivelUno::StaticClass());
 	// Crear el director del laberinto
 	Director = GetWorld()->SpawnActor<AIngenieroDeMapas>(AIngenieroDeMapas::StaticClass());
 
 
 	////Set the Builder for the Director and create the Laberinto
-	Director->SetBuilder(Builder);
-	//Director->CrearMapaUno();
-	Director->CrearMapaDos();
-	Director->CrearPuerta();
-	Director->CrearPuente();
-	Director->CrearPowerUp();
+	Director->SetConstructorMapa(Constructor);
+	Director->ConstruirMapa();
+	AMapaDelJuego* Mapa = Director->GetMapa();
 }
 
 void ABuilderGameMode::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-	
+	Super::Tick(DeltaTime); 
 }

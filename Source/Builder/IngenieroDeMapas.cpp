@@ -2,102 +2,41 @@
 
 
 #include "IngenieroDeMapas.h"
+#include "ConstructorMapa.h"
+#include "ConstructorMapaNivelUno.h"
 
 // Sets default values
 AIngenieroDeMapas::AIngenieroDeMapas()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
 
-void AIngenieroDeMapas::CrearMapaUno()
+void AIngenieroDeMapas::SetConstructorMapa(AActor* Constructor)
 {
-	if (ConstructorMapa)
-	{
-		ConstructorMapa->ConstruirBloqueMuro();
-		ConstructorMapa->ConstruirBloquePiedra();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Builder is not set!"));
-	}
+	ConstructorMapa = Cast<IConstructorMapa>(Constructor);
 }
 
-void AIngenieroDeMapas::CrearMapaDos()
-{
-	if (ConstructorMapa)
-	{
-		ConstructorMapa->ConstruirBloqueMuro();
-		ConstructorMapa->ConstruirBloqueTransparente();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Builder is not set!"));
-	}
-}
-
-void AIngenieroDeMapas::CrearPuerta()
-{
-	if (ConstructorMapa)
-	{
-		//ConstructorMapa->ConstruirBloqueMuro();
-		//ConstructorMapa->ConstruirBloquePiedra();
-		ConstructorMapa->ConstruirPuerta();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Builder is not set!"));
-	}
-}
-
-void AIngenieroDeMapas::CrearPuente()
-{
-	if (ConstructorMapa)
-	{
-		//ConstructorMapa->ConstruirBloqueMuro();
-		//ConstructorMapa->ConstruirBloquePiedra();
-		ConstructorMapa->ConstruirPuente();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Builder is not set!"));
-	}
-}
-
-void AIngenieroDeMapas::CrearPowerUp()
-{
-	if (ConstructorMapa)
-	{
-		//ConstructorMapa->ConstruirBloqueMuro();
-		//ConstructorMapa->ConstruirBloquePiedra();
-		ConstructorMapa->ConstruirPowerUp();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Builder is not set!"));
-	}
-}
-
-void AIngenieroDeMapas::SetBuilder(IConstructorMapa* NewBuilder)
-{
-	ConstructorMapa = NewBuilder;
-}
-
-void AIngenieroDeMapas::ConstructorDeMapa()
+void AIngenieroDeMapas::ConstruirMapa()
 {
 	ConstructorMapa->ConstruirBloqueMuro();
+	ConstructorMapa->ConstruirBloqueInterno();
+	ConstructorMapa->ConstruirPuerta();
+	ConstructorMapa->ConstruirPuente();
+	ConstructorMapa->ConstruirPowerUp();
 }
 
-
-
-
+AMapaDelJuego* AIngenieroDeMapas::GetMapa()
+{
+	return ConstructorMapa->GetMapa();
+}
 
 // Called when the game starts or when spawned
 void AIngenieroDeMapas::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 }
 
 // Called every frame
@@ -106,6 +45,4 @@ void AIngenieroDeMapas::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
-
 
