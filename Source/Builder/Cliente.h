@@ -1,38 +1,31 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-#pragma once
 
-#include "IngenieroDeMapas.h"
-#include "ConstructorMapaNivelUno.h"
-#include "MapaDelJuego.h"
+#pragma once
+#include "IngenieroDeEjercitos.h"
+#include "ConstructorEjercitoMiselaneo.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Cliente.generated.h"
-
 UCLASS()
 class BUILDER_API ACliente : public AActor
 {
 	GENERATED_BODY()
-
-public:
+	
+public:	
 	// Sets default values for this actor's properties
 	ACliente();
-
-
-private:
-	//The Builder Actor
-	//class AConstructorMapaUno* Builder;
-	//The Engineer Actor
-	class AIngenieroDeMapas* Director;
-
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
+public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	AConstructorMapaNivelUno* Builder;
+private:
+	//The Builder Actor
+	class AConstructorEjercitoMiselaneo* ConstructorEjercito;
+	//The Engineer Actor
+	class AIngenieroDeEjercitos* IngenieroEjercitos;
 
 };

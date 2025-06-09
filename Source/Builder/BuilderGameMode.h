@@ -2,6 +2,8 @@
 #pragma once
 #include "IngenieroDeMapas.h"
 #include "ConstructorMapaNivelUno.h"
+#include "IngenieroDeEjercitos.h"
+#include "ConstructorEjercitoMiselaneo.h"
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "BuilderGameMode.generated.h"
@@ -18,6 +20,11 @@ private:
 	class AConstructorMapaNivelUno* Constructor;
 	//The Engineer Actor
 	class AIngenieroDeMapas* Director;
+
+	//The Builder Actor
+	class AConstructorEjercitoMiselaneo* ConstructorEjercito;
+	//The Engineer Actor	
+	class AIngenieroDeEjercitos* IngenieroEjercitos;
 
 protected:
 	// Called when the game starts or when spawned
