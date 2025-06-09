@@ -1,0 +1,8 @@
+Segundo Parcial:
+    - Se encuentra en la rama "Segundo-Parcial"
+
+Patron Builder:
+    - Se encuentra en la rama "master"
+
+Patron Prototype
+    - Se encuentra en la rama "master", se aplico la interfaz a "BloquePiedra", interfaz "Clonable", y se aplico en el GameMode

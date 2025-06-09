@@ -27,5 +27,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	//AConstructorMapaNivelUno* Builder;
+	UPROPERTY()
+	class ABloquePiedra* PrototipoBloqueGranito; // Un prototipo que configuraremos
 };
