@@ -1,9 +1,12 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 #include "ConstructorMapaNivelUno.h"
+#include "ConstructorEjercitoMiselaneo.h"
 #include "BuilderGameMode.h"
 #include "BuilderCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "IngenieroDeMapas.h"
+#include "IngenieroDeEjercitos.h"
+#include "EnemigoAereo.h"
 ABuilderGameMode::ABuilderGameMode()
 {
 	// set default pawn class to our Blueprinted character
@@ -27,6 +30,17 @@ void ABuilderGameMode::BeginPlay()
 	Director->SetConstructorMapa(Constructor);
 	Director->ConstruirMapa();
 	AMapaDelJuego* Mapa = Director->GetMapa();
+
+	ConstructorEjercito = GetWorld()->SpawnActor<AConstructorEjercitoMiselaneo>(AConstructorEjercitoMiselaneo::StaticClass());
+	// Crear el ingeniero de ejercitos
+	IngenieroEjercitos = GetWorld()->SpawnActor<AIngenieroDeEjercitos>(AIngenieroDeEjercitos::StaticClass());
+
+
+
+	// Set the Builder for the Engineer and create the Army 
+	IngenieroEjercitos->SetConstructorEjercito(ConstructorEjercito);
+	IngenieroEjercitos->ConstruirEjercito();
+	AEjercito* Ejercito = IngenieroEjercitos->GetEjercito();
 }
 
 void ABuilderGameMode::Tick(float DeltaTime)
