@@ -9,3 +9,9 @@ Patron Prototype
 
 Praton Facade
     - Se encuentra en la rama "master", se añadio: "Explocion", "Bomba", "BomSystemFacade", y se aplico el patron en "BuilderCharacter"
+
+Patron Composite
+    - Se encuentra en la rama "master", se añadio: la interfaz "MapaElemento", se uso la interfaz en "CompositeGrupoDeBloques", "Bloque" y se implemento en el "GameMode"
+
+Patron Factory Method
+    - Se encuentra en la rama "master", se añadio la clase "FactoryBloques".
