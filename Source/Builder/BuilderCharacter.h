@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "BuilderCharacter.generated.h"
-
+class UBombSystemFacade;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
@@ -68,5 +68,15 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-};
 
+public:
+    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+protected:
+    virtual void BeginPlay() override;
+
+    UPROPERTY()
+    UBombSystemFacade* BombFacade;
+
+    void AccionColocarBomba();
+};

@@ -6,3 +6,6 @@ Patron Builder:
 
 Patron Prototype
     - Se encuentra en la rama "master", se aplico la interfaz a "BloquePiedra", interfaz "Clonable", y se aplico en el GameMode
+
+Praton Facade
+    - Se encuentra en la rama "master", se añadio: "Explocion", "Bomba", "BomSystemFacade", y se aplico el patron en "BuilderCharacter"

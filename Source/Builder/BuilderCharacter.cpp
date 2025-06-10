@@ -10,6 +10,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Bomba.h" 
+#include "GameFramework/PlayerController.h" // Para el input
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -54,6 +56,56 @@ ABuilderCharacter::ABuilderCharacter()
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
 
+void APersonajeBomberman::BeginPlay()
+{
+    Super::BeginPlay();
+
+    // Crear e inicializar la fachada.
+    // Podría ser creada por el GameMode y pasada al jugador, o el jugador crearla.
+    BombFacade = NewObject<UBombSystemFacade>(this); // 'this' es el Outer
+    if (BombFacade)
+    {
+        BombFacade->Initialize(GetWorld());
+    }
+    else
+    {
+        UE_LOG(LogTemp, Error, TEXT("No se pudo crear BombFacade en PersonajeBomberman."));
+    }
+}
+
+void APersonajeBomberman::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+    Super::SetupPlayerInputComponent(PlayerInputComponent);
+    PlayerInputComponent->BindAction("ColocarBomba", IE_Pressed, this, &APersonajeBomberman::AccionColocarBomba);
+}
+
+void APersonajeBomberman::AccionColocarBomba()
+{
+    if (BombFacade)
+    {
+        // Calcular la posición donde se debe colocar la bomba
+        // (ej. en la celda actual del jugador, alineada a una grilla)
+        FVector PosicionBomba = GetActorLocation(); // Simplificado, deberías ajustar a la grilla
+        // Podrías tener una función para obtener la posición de la celda:
+        // PosicionBomba = UMiGameplayStatics::SnapToGrid(GetActorLocation(), GridCellSize);
+
+        ABomba* BombaColocada = BombFacade->PlaceBombAtLocation(this, PosicionBomba);
+        if (BombaColocada)
+        {
+            // Éxito
+            UE_LOG(LogTemp, Log, TEXT("Jugador colocó una bomba a través de la fachada."));
+        }
+        else
+        {
+            // Falló (quizás por un límite de bombas, etc., si implementas esa lógica en la fachada)
+            UE_LOG(LogTemp, Warning, TEXT("Jugador intentó colocar bomba, pero falló (ver logs de fachada)."));
+        }
+    }
+    else
+    {
+        UE_LOG(LogTemp, Error, TEXT("AccionColocarBomba: BombFacade es NULL."));
+    }
+}
 //////////////////////////////////////////////////////////////////////////
 // Input
 
