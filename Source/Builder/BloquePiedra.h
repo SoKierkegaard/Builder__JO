@@ -39,4 +39,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Acciones Bloque")
 	void ConfigurarBloque(float NuevaResistencia, const FString& NuevoTipoPiedra); // Pasar FString como const referencia
 
+	// --- Implementación de IMapaElemento ---
+    virtual void DestruirElemento() override;
 };

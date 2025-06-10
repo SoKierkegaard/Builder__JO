@@ -84,6 +84,85 @@ void ABuilderGameMode::BeginPlay()
 		UE_LOG(LogTemp, Log, TEXT("--- Verificando el original después de clonar y modificar clones ---"));
 		PrototipoBloqueGranito->MostrarDetalles();
 	}
+
+
+
+
+	////////////////////
+	UWorld* World = GetWorld();
+    if (!World) return;
+
+    // --- Crear elementos hoja ---
+    ABloqueMuro* BloqueMuro = World->SpawnActor<ABloqueMuro>(FVector(0, 0, 50), FRotator::ZeroRotator);
+    if(BloqueMuro) BloqueMuro->Rename(TEXT("Madera_01"));
+
+    ABloquePiedra* BloquePiedra = World->SpawnActor<ABloquePiedra>(FVector(100, 0, 50), FRotator::ZeroRotator);
+    if(BloquePiedra) BloquePiedra->Rename(TEXT("Madera_02"));
+
+    ABloqueTransparente* BloqueTransparente = World->SpawnActor<ABloqueTransparente>(FVector(0, 100, 50), FRotator::ZeroRotator);
+    if(BloqueTransparente) BloqueTransparente->Rename(TEXT("Acero_01"));
+
+    // --- Crear un grupo (Composite) ---
+    GrupoDePrueba = World->SpawnActor<ACompositeGrupoDeBloques>(FVector::ZeroVector, FRotator::ZeroRotator);
+    if (GrupoDePrueba)
+    {
+        GrupoDePrueba->Rename(TEXT("GrupoPrincipal"));
+        // Añadir elementos al grupo
+        if(BloqueMuro) GrupoDePrueba->AnadirElemento(BloqueMuro);
+        if(BloquePiedra) GrupoDePrueba->AnadirElemento(BloquePiedra);
+        if(BloqueTransparente) GrupoDePrueba->AnadirElemento(BloqueTransparente);
+
+        // También podríamos crear otro grupo y añadirlo al grupo principal
+        ACompositeGrupoDeBloques* SubGrupo = World->SpawnActor<ACompositeGrupoDeBloques>(FVector::ZeroVector, FRotator::ZeroRotator);
+        if (SubGrupo)
+        {
+            SubGrupo->Rename(TEXT("SubGrupo_Interno"));
+            ABloqueMadera* BloqueMaderaSubgrupo = World->SpawnActor<ABloqueMadera>(FVector(200, 200, 50), FRotator::ZeroRotator);
+            if(BloqueMaderaSubgrupo) BloqueMaderaSubgrupo->Rename(TEXT("Madera_SubGrupo"));
+
+            if(BloqueMaderaSubgrupo) SubGrupo->AnadirElemento(BloqueMaderaSubgrupo);
+            GrupoDePrueba->AnadirElemento(SubGrupo); // Añadir un composite dentro de otro
+        }
+    }
+
+    // --- Prueba de destrucción ---
+    // Destruir un elemento individual directamente
+    if (BloqueMadera1) // Asegurarse que es válido antes de castear
+    {
+        IMapaElemento* ElementoIndividual = Cast<IMapaElemento>(BloqueMadera1);
+        if (ElementoIndividual)
+        {
+            // No lo destruimos inmediatamente para ver el grupo primero
+            // ElementoIndividual->DestruirElemento();
+            UE_LOG(LogTemp, Log, TEXT("BloqueMadera1 (%s) listo para ser destruido individualmente (pero no ahora)."), *BloqueMadera1->GetName());
+        }
+    }
+
+    // Programar la destrucción del grupo después de unos segundos
+    if (GrupoDePrueba)
+    {
+        // El grupo es un AActor que implementa IMapaElemento
+        IMapaElemento* ElementoGrupo = Cast<IMapaElemento>(GrupoDePrueba);
+        if (ElementoGrupo)
+        {
+            UE_LOG(LogTemp, Log, TEXT("GrupoDePrueba (%s) programado para destrucción en 5 segundos."), *GrupoDePrueba->GetName());
+            World->GetTimerManager().SetTimer(TimerHandle_DestruirGrupo, this, &ABombermanGameModeBase::EjecutarDestruccionDePrueba, 5.0f, false);
+        }
+    }
+}
+
+void ABuilderGameMode::EjecutarDestruccionDePrueba()
+{
+    if (GrupoDePrueba) // Asegurarse que el grupo aún existe
+    {
+        IMapaElemento* ElementoGrupo = Cast<IMapaElemento>(GrupoDePrueba);
+        if (ElementoGrupo)
+        {
+            UE_LOG(LogTemp, Log, TEXT("Ejecutando destrucción del GrupoDePrueba (%s) ahora."), *GrupoDePrueba->GetName());
+            ElementoGrupo->DestruirElemento(); // Esto debería destruir los hijos y luego el grupo mismo
+            GrupoDePrueba = nullptr; // Ya no es válido
+        }
+    }
 }
 
 void ABuilderGameMode::Tick(float DeltaTime)

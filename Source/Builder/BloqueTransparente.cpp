@@ -35,3 +35,9 @@ void ABloqueTransparente::Tick(float DeltaTime)
 
 }
 
+void ABloqueTransparente::DestruirElemento()
+{
+    Super::DestruirElemento();
+    UE_LOG(LogTemp, Log, TEXT("BloqueTransparente (%s) destruido."), *GetName());
+}
+

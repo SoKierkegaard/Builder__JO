@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "BuilderGameMode.generated.h"
-
+class ACompositeGrupoDeBloques;
 UCLASS(minimalapi)
 class ABuilderGameMode : public AGameModeBase
 {
@@ -22,6 +22,14 @@ private:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	// Para probar, podríamos tener una referencia a un grupo
+    UPROPERTY()
+    ACompositeGrupoDeBloques* GrupoDePrueba;
+
+    // Para la prueba de destrucción
+    FTimerHandle TimerHandle_DestruirGrupo;
+    void EjecutarDestruccionDePrueba();
 
 public:
 	// Called every frame

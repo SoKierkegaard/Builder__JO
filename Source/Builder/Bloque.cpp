@@ -2,6 +2,7 @@
 
 
 #include "Bloque.h"
+#include "UObject/ConstructorHelpers.h" // Para cargar assets
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values
@@ -30,11 +31,18 @@ ABloque::ABloque()
 
 	bPuedeMoverse = FMath::RandBool();
 
-	// Tamaño del bloque (se puede modificar desde el editor o código)
+	// Tamaï¿½o del bloque (se puede modificar desde el editor o cï¿½digo)
 	//TamanoBloque = FVector(1.0f, 1.0f, 2.0f); // Escala predeterminada
 
-	// Aplicar el tamaño al bloque
+	// Aplicar el tamaï¿½o al bloque
 	//MallaBloque->SetWorldScale3D(TamanoBloque);
+}
+
+void ABloque::DestruirElemento()
+{
+    UE_LOG(LogTemp, Log, TEXT("Bloque (%s) siendo destruido."), *GetName());
+    // LÃ³gica adicional antes de destruir si es necesario (ej. spawnear power-up)
+    Destroy(); // Destruye el actor
 }
 
 // Called when the game starts or when spawned
@@ -59,7 +67,7 @@ void ABloque::Tick(float DeltaTime)
 		float DeltaHeight = FMath::FRandRange(-1.0f, 1.0f) * FloatSpeed;
 		NewLocation.Z += DeltaHeight;
 
-		// Aleatoriedad en la rotación
+		// Aleatoriedad en la rotaciï¿½n
 		float DeltaRotation = FMath::FRandRange(-1.0f, 1.0f) * RotationSpeed;
 		NewRotation.Yaw += DeltaRotation;
 

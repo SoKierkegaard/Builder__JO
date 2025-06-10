@@ -28,4 +28,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// --- Implementación de IMapaElemento ---
+    virtual void DestruirElemento() override;
 };

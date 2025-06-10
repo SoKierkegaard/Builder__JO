@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "MapaElemento.h" // Incluimos la interfaz
 #include "Bloque.generated.h"
-
 UCLASS()
-class BUILDER_API ABloque : public AActor
+class BUILDER_API ABloque : public AActor, public IMapaElemento // Implementa IMapaElemento
 {
 	GENERATED_BODY()
 	
@@ -16,7 +16,7 @@ public:
 	ABloque();
 
 protected:
-	// Componente de malla estática
+	// Componente de malla estï¿½tica
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Componentes")
 	UStaticMeshComponent* MallaBloque;
 protected:
@@ -27,6 +27,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// --- ImplementaciÃ³n de IMapaElemento ---
+    virtual void DestruirElemento() override;
 public:
 	
 	float FloatSpeed;

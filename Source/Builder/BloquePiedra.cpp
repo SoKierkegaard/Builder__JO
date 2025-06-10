@@ -21,7 +21,7 @@ ABloquePiedra::ABloquePiedra()
     }
 
     Resistencia = 100.0f;
-    TipoPiedra = TEXT("Piedra Genérica");
+    TipoPiedra = TEXT("Piedra Genï¿½rica");
 }
 
 // Called when the game starts or when spawned
@@ -36,6 +36,20 @@ void ABloquePiedra::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
+}
+
+void ABloquePiedra::DestruirElemento()
+{
+    // Para el BloqueAcero, "DestruirElemento" podrÃ­a no hacer nada si es indestructible,
+    // o podrÃ­a tener una lÃ³gica diferente (ej. daÃ±arse pero no destruirse).
+    // Por ahora, para la prueba del patrÃ³n, haremos que loguee pero no se destruya.
+    UE_LOG(LogTemp, Log, TEXT("BloqueAcero (%s) recibiÃ³ orden de destruir, pero es indestructible (por ahora)."), *GetName());
+
+    // Si realmente fuera indestructible y DestruirElemento no debiera hacer nada:
+    // return;
+
+    // Si quieres que sÃ­ se destruya para la prueba (aunque sea "acero"):
+    // Destroy();
 }
 
 void ABloquePiedra::MostrarDetalles()
@@ -67,9 +81,9 @@ AActor* ABloquePiedra::Clonar()
     }
 
     // 1. Instanciar un nuevo objeto del mismo tipo.
-    // Usamos SpawnActor para que esté correctamente en el mundo.
-    // La posición inicial del clon podría ser la misma que el original o (0,0,0) y luego moverlo.
-    // Por simplicidad, lo creamos en la misma posición y rotación.
+    // Usamos SpawnActor para que estï¿½ correctamente en el mundo.
+    // La posiciï¿½n inicial del clon podrï¿½a ser la misma que el original o (0,0,0) y luego moverlo.
+    // Por simplicidad, lo creamos en la misma posiciï¿½n y rotaciï¿½n.
     ABloquePiedra* Clon = World->SpawnActor<ABloquePiedra>(this->GetClass(), GetActorLocation(), GetActorRotation());
 
     if (Clon)
@@ -82,6 +96,6 @@ AActor* ABloquePiedra::Clonar()
         return Clon;
     }
 
-    UE_LOG(LogTemp, Error, TEXT("ABloquePiedra::Clonar - Falló el SpawnActor para el clon."));
+    UE_LOG(LogTemp, Error, TEXT("ABloquePiedra::Clonar - Fallï¿½ el SpawnActor para el clon."));
     return nullptr;
 }

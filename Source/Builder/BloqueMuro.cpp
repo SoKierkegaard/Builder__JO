@@ -21,6 +21,20 @@ ABloqueMuro::ABloqueMuro()
 
 }
 
+void ABloqueMuro::DestruirElemento()
+{
+    // Para el BloqueAcero, "DestruirElemento" podría no hacer nada si es indestructible,
+    // o podría tener una lógica diferente (ej. dañarse pero no destruirse).
+    // Por ahora, para la prueba del patrón, haremos que loguee pero no se destruya.
+    UE_LOG(LogTemp, Log, TEXT("BloqueAcero (%s) recibió orden de destruir, pero es indestructible (por ahora)."), *GetName());
+
+    // Si realmente fuera indestructible y DestruirElemento no debiera hacer nada:
+    // return;
+
+    // Si quieres que sí se destruya para la prueba (aunque sea "acero"):
+    // Destroy();
+}
+
 // Called when the game starts or when spawned
 void ABloqueMuro::BeginPlay()
 {
